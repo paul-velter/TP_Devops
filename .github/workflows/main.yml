@@ -22,7 +22,8 @@ jobs:
 
       #finally build your app with the latest command
       - name: Build and test with Maven
-        run: mvn -f ./Backend/pom.xml clean install
+        run: mvn -B verify sonar:sonar -Dsonar.projectKey=paul-velt_tp-devops -Dsonar.organization=paul-velt -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${{ secrets.SONAR_TOKEN }}  --file ./Backend/pom.xml
+
 
 
   build-and-push-docker-image:
@@ -60,3 +61,5 @@ jobs:
           context: ./Frontend/HTML
           tags: ${{secrets.DOCKERHUB_USERNAME}}/tp-devops-httpd:latest
           push: ${{ github.ref == 'refs/heads/main' }}
+
+
