@@ -1,0 +1,9 @@
+- name: Run HTTPD
+  docker_container:
+    name: httpd
+    image: azorus/tp-devops-httpd:latest
+    networks:
+      - name: app-network
+    ports:
+      - "80:80"
+

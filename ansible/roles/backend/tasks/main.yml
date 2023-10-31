@@ -1,0 +1,6 @@
+- name: Launch the backend container
+  docker_container:
+    name: backend
+    image: azorus/tp-devops-backend:latest
+    networks:
+      - name: app-network
