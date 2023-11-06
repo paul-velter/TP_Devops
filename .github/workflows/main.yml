@@ -1,61 +1,53 @@
-name: CI devops 2023
-on:
-  #to begin you want to launch this job in main and develop
-  push:
-    branches:
-      - main
+name: CI devops 2023 # Nom du workflow
+on: # Événements déclencheurs du workflow
+  push: # Déclenché lors d'un push
+    branches: # Spécifie les branches concernées
+      - main # Déclencher pour la branche principale
   pull_request:
 
-jobs:
-  test-backend:
-    runs-on: ubuntu-22.04
-    steps:
-      #checkout your github code using actions/checkout@v2.5.0
-      - uses: actions/checkout@v2.5.0
+jobs: # Définition des jobs
+  test-backend: # Job pour les tests du backend
+    runs-on: ubuntu-22.04 # Système d'exploitation pour l'exécution
 
-      #do the same with another action (actions/setup-java@v3) that enable to setup jdk 17
-      - name: Set up JDK 17
-        uses: actions/setup-java@v3
+    steps: # Étapes à exécuter
+      - uses: actions/checkout@v2.5.0 # Cloner le code depuis GitHub
+
+      - name: Set up JDK 17 # Configuration du JDK 17
+        uses: actions/setup-java@v3 # Utilisation de l'action setup-java
         with:
           distribution: 'adopt'
           java-version: '17'
 
-      #finally build your app with the latest command
-      - name: Build and test with Maven
+      - name: Build and test with Maven # Construction et test avec Maven
+        # Commande pour exécuter Maven avec les objectifs de build et de test, ainsi que l'analyse avec SonarQube
         run: mvn -B verify sonar:sonar -Dsonar.projectKey=paul-velt_tp-devops -Dsonar.organization=paul-velt -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${{ secrets.SONAR_TOKEN }}  --file ./Backend/pom.xml
 
+  build-and-push-docker-image: # Job pour construire et pousser les images Docker
+    needs: test-backend # Dépendance du job 'test-backend'
+    runs-on: ubuntu-22.04 # Système d'exploitation pour l'exécution
 
-
-  build-and-push-docker-image:
-    needs: test-backend
-    # run only when code is compiling and tests are passing
-    runs-on: ubuntu-22.04
-
-    # steps to perform in job
-    steps:
+    steps: # Étapes à exécuter
       - name: Login to DockerHub
-        run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
+        run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }} # Commande de connexion à DockerHub
 
-      - name: Checkout code
+      - name: Checkout code # Cloner le code depuis GitHub
         uses: actions/checkout@v2.5.0
 
-      - name: Build image and push backend
-        uses: docker/build-push-action@v3
+      - name: Build image and push backend # Construction et poussée de l'image backend
+        uses: docker/build-push-action@v3  # Utilisation de l'action build-push-action
         with:
-          # relative path to the place where source code with Dockerfile is located
-          context: ./Backend
-          # Note: tags has to be all lower-case
-          tags: ${{secrets.DOCKERHUB_USERNAME}}/tp-devops-backend:latest
-          push: ${{ github.ref == 'refs/heads/main' }}
+          context: ./Backend # Chemin relatif du code source avec Dockerfile
+          tags: ${{secrets.DOCKERHUB_USERNAME}}/tp-devops-backend:latest # Tags pour l'image backend
+          push: ${{ github.ref == 'refs/heads/main' }} # Pousser uniquement si la branche est main
 
-      - name: Build image and push database
+      - name: Build image and push database # Construction et poussée de l'image database
         uses: docker/build-push-action@v3
         with:
           context: ./Database
           tags: ${{secrets.DOCKERHUB_USERNAME}}/tp-devops-database:latest
           push: ${{ github.ref == 'refs/heads/main' }}
 
-      - name: Build image and push httpd
+      - name: Build image and push httpd # Construction et poussée de l'image httpd
         uses: docker/build-push-action@v3
         with:
           context: ./Frontend/HTML

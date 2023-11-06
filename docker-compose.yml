@@ -2,16 +2,18 @@ version: '3.7'
 
 services:
 
+  # Configuration du service de la base de données
   database:
     build:
-      context: ./Database
-      dockerfile: Dockerfile
-    container_name: database
+      context: ./Database #Spécifie le répertoire contenant les fichiers nécessaires à la construction de l'image
+      dockerfile: Dockerfile #Spécifie le fichier Dockerfile à utiliser pour construire l'image
+    container_name: database #Attribue un nom spécifique au conteneur
     networks:
-      - app-network
+      - app-network #Indique à Docker Compose d'attacher le conteneur au réseau spécifié
     volumes:
       - db-data:/var/lib/postgresql/data
 
+  # Configuration du service backend
   backend:
     build:
       context: ./Backend
@@ -20,22 +22,25 @@ services:
     networks:
       - app-network
     depends_on:
-      - database
+      - database #Définit les dépendances entre les services, en indiquant l'ordre de démarrage
 
+  # Configuration du service httpd (serveur web)
   httpd:
     build:
       context: ./Frontend/HTML
       dockerfile: Dockerfile
     container_name: frontend
     ports:
-      - "8081:80"
+      - "8081:80" # Mapping du port 80 du conteneur au port 8081 de l'hôte
     networks:
       - app-network
     depends_on:
       - backend
 
+# Configuration du réseau
 networks:
   app-network:
 
+# Configuration des volumes
 volumes:
   db-data:

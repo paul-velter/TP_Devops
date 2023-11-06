@@ -1,6 +1,6 @@
-- name: Launch the backend container
-  docker_container:
-    name: backend
-    image: azorus/tp-devops-backend:latest
+- name: Launch the backend container # Titre de la tâche
+  docker_container: # Module utilisé pour gérer les conteneurs Docker
+    name: backend # Nom du conteneur à créer ou à gérer
+    image: azorus/tp-devops-backend:latest # Image à utiliser pour le conteneur
     networks:
-      - name: app-network
+      - name: app-network # Nom du réseau auquel le conteneur doit être connecté

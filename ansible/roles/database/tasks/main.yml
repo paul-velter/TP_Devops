@@ -1,10 +1,10 @@
-- name: Launch the database container
-  docker_container:
-    name: database
-    image: azorus/tp-devops-database:latest
+- name: Launch the database container # Titre de la tâche
+  docker_container: # Module utilisé pour gérer les conteneurs Docker
+    name: database # Nom du conteneur à créer ou à gérer
+    image: azorus/tp-devops-database:latest # Image à utiliser pour le conteneur
     networks:
-      - name: app-network
-    env:
-      POSTGRES_DB: db
-      POSTGRES_USER: usr
-      POSTGRES_PASSWORD: pwd
+      - name: app-network # Nom du réseau auquel le conteneur doit être connecté
+    env: # Variables d'environnement à définir dans le conteneur
+      POSTGRES_DB: db # Nom de la base de données
+      POSTGRES_USER: usr # Nom de l'utilisateur de la base de données
+      POSTGRES_PASSWORD: pwd # Mot de passe de l'utilisateur de la base de données

@@ -1,9 +1,9 @@
-- name: Run HTTPD
-  docker_container:
-    name: httpd
-    image: azorus/tp-devops-httpd:latest
+- name: Run HTTPD # Titre de la tâche
+  docker_container: # Module utilisé pour gérer les conteneurs Docker
+    name: httpd # Nom du conteneur à créer ou à gérer
+    image: azorus/tp-devops-httpd:latest # Image à utiliser pour le conteneur
     networks:
-      - name: app-network
+      - name: app-network # Nom du réseau auquel le conteneur doit être connecté
     ports:
-      - "80:80"
+      - "80:80" # Mappage du port 80 du conteneur vers le port 80 de la machine hôte
 

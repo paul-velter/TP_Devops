@@ -1,8 +1,8 @@
-- hosts: all
-  gather_facts: false
-  become: yes
+- hosts: all # Spécifie les hôtes cibles sur lesquels les rôles seront exécutés
+  gather_facts: false # Désactive la collecte des faits, ce qui signifie qu'Ansible n'obtiendra pas les détails du système distant avant l'exécution des tâches
+  become: yes # Active le privilège de superutilisateur (sudo) pour exécuter les tâches,
 
-  roles:
+  roles: # Liste des rôles à exécuter sur les hôtes cibles, dans l'ordre spécifié
     - docker
     - network
     - database

@@ -5,6 +5,9 @@ ENV POSTGRES_DB=db \
    POSTGRES_PASSWORD=pwd
 
 COPY /SQL /docker-entrypoint-initdb.d
+
+#1-1 Document your database container essentials: commands and Dockerfile.
+
 #On copie le dossier SQL qui contient les fichiers de création de la base de donnée
 #dans le dossier docker-entrypoint-initdb.d. Cela permet d'éxécuter tous les fichier contenu par ce
 #dossier lors de la construction d'un conteneur à partir de cette image.
