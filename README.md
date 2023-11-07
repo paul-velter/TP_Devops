@@ -4,7 +4,29 @@
 
 **1-1 Document your database container essentials: commands and Dockerfile.**
 
-Voir le [Dockerfile](Database%2FDockerfile) du dossier Base de donnée
+Les commandes principales :
+
+Commande pour construire l'image :
+```
+docker build -t azorus/my-database .
+```
+Commande pour exécuter l'imade :
+```
+docker run -d -p 5432:5432 --network app-network --name my-database -v /var/lib/postgresql/data azorus/my-database
+```
+-d éxécuter le conteneur hors du terminal
+
+-p 5432:5432 attribuer les ports
+
+après avoir créer un nouveau network, on l'associ au conteneur (pour pouvoir utiliser l'adminer)
+
+--name on nomme le conteneure
+
+-v permet de rendre les données persistant dans le conteneur
+
+On défini ensuite l'image à partir de la quelle on contruit le conteneur
+
+Voir le [Dockerfile](Database%2FDockerfile) commenté du dossier Base de donnée
 
 **1-2 Why do we need a multistage build? And explain each step of this dockerfile.**
 
@@ -15,18 +37,30 @@ Voir le [Dockerfile](Backend%2FDockerfile) commenté dans le dossier Backend
 
 **1-3 Document docker-compose most important commands.**
 
-docker-compose up : Démarre tous les conteneurs spécifiés dans le fichier docker-compose.yml.
-
-docker-compose down : Arrête et supprime tous les conteneurs, réseaux et volumes créés par docker-compose up.
-
-docker-compose build : Construit ou reconstruit les images des services spécifiés dans le fichier docker-compose.yml.
-
-docker-compose start : Démarre les conteneurs existants pour les services spécifiés.
-
-docker-compose stop : Arrête les conteneurs en cours d'exécution pour les services spécifiés sans les supprimer.
-
-docker-compose rm : Supprime les conteneurs arrêtés pour les services spécifiés.
-
+Commande pour démarrer tous les conteneurs spécifiés dans le fichier docker-compose.yml :
+```
+docker-compose up 
+```
+Commande pour arrêter et supprime tous les conteneurs, réseaux et volumes créés par docker-compose up :
+```
+docker-compose down 
+```
+Commande pour construir ou reconstruit les images des services spécifiés dans le fichier docker-compose.yml :
+```
+docker-compose build 
+```
+Commande pour démarrer les conteneurs existants pour les services spécifiés :
+```
+docker-compose start 
+```
+Commande pour arrêter les conteneurs en cours d'exécution pour les services spécifiés sans les supprimer :
+```
+docker-compose stop 
+```
+Comande pour er les conteneurs arrêtés pour les services spécifiés :
+```
+docker-compose rm 
+```
 **1-4 Document your docker-compose file**
 
 Voir le [docker-compose.yml](docker-compose.yml) commenté
