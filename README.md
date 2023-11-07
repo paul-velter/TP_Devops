@@ -118,4 +118,7 @@ Voir le playbook [playbook.yml](ansible%2Fplaybook.yml) commenté
 
 **3-3 Document your docker_container tasks configuration.**
 
-Voir les différents [roles](ansible%2Froles)
+Voir les différents [roles](ansible%2Froles) commentés :
+- [main.yml](ansible%2Froles%2Fbackend%2Ftasks%2Fmain.yml) du backend
+- [main.yml](ansible%2Froles%2Fdatabase%2Ftasks%2Fmain.yml) de la database
+- [main.yml](ansible%2Froles%2Fproxy%2Ftasks%2Fmain.yml) du proxy
